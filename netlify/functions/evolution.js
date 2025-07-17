@@ -1,14 +1,29 @@
-export default async function handler(req, res) {
-  const { target, type } = req.query;
-  if (!target || !type) return res.status(400).json({ success: false, error: "Missing params" });
+exports.handler = async function (event, context) {
+  const { type, target } = event.queryStringParameters || {};
 
-  const url = `http://46.101.32.52:2004/evolution?type=${type}&chatId=${target}@s.whatsapp.net`;
+  if (!target) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ success: false, error: "Nomor target kosong" }),
+    };
+  }
 
-  try {
-    const response = await fetch(url);
-    const text = await response.text();
-    return res.status(200).json({ success: true, response: text });
-  } catch (err) {
-    return res.status(500).json({ success: false, error: err.message });
-  }
-}
+  let message = "";
+  if (type === "fc") {
+    message = `Forclose berhasil ke ${target}`;
+  } else if (type === "fcin") {
+    message = `Force Invis berhasil ke ${target}`;
+  } else if (type === "delay") {
+    message = `Delay berhasil ke ${target}`;
+  } else {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ success: false, error: "Tipe tidak dikenali" }),
+    };
+  }
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ success: true, message }),
+  };
+};
